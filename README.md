@@ -1,2 +1,2 @@
 # yeelight-GUI
-control your lights from your computer
+control up to 5 lights from your computer
