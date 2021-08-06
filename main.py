@@ -57,6 +57,11 @@ def refresh():
     global bulb2_name
     global bulb3_name
     global bulb4_name
+    global bulb0
+    global bulb1
+    global bulb2
+    global bulb3
+    global bulb4
     listbox.delete(0, END)
     discover_bulbss  = discover_bulbs(3)
     if len(discover_bulbss)==0:
