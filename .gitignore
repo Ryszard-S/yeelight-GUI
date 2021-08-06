@@ -164,4 +164,7 @@ Thumbs.db
 .history
 .ionide
 
+# Pycharm files
+.idea
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python
