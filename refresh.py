@@ -13,7 +13,12 @@ def bulb_names(bulbList):
     if bulbList == None:
         bulbList = bulb_list()
     bn = []
+    i=0
     for bulb in bulbList:
-        bn.append(bulb.get_properties().get('name'))
+        if bulb.get_properties().get('name') is not None:
+            bn.append(bulb.get_properties().get('name'))
+        else:
+            bn.append(f'name{i}')
+        i+=1
 
     return bn

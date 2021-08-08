@@ -1,10 +1,14 @@
 from tkinter import *
-from tkinter import colorchooser, font
+from tkinter import colorchooser, font, ttk
 
+from yeelight import flows
+
+import enter_name
 from refresh import *
 
 gray = '#383838'
 yellow = '#D4AC3D'
+yellow1 = '#A8831B'
 
 
 # TODO ustawianie wartości bightness i ct po wybraniu żarówki ??
@@ -51,9 +55,9 @@ def set_brightness():
     else:
         bttn_Brightess.config(image=img_BrightnessMin)
 
-# TODO experimental funcition
-# def change_name():
-#     enter_Name.enterName()
+
+def change_name():
+    enter_name.enterName(bulbList=bulbList)
 
 
 def refresh():
@@ -61,15 +65,51 @@ def refresh():
     bulbList = bulb_list()
 
     # Wstawianie nazw żarówek do listy wybieralnej
-    i = 0
     listbox.delete(0, END)
     for bulb in bulb_names(bulbList):
-        if bulb is not None:
-            listbox.insert(END, bulb)
-        else:
-            listbox.insert(END, f'name{i}')
-        i += 1
+        listbox.insert(END, bulb)
 
+
+# # def mode_sunset():
+# #     flow = flows.sunset()
+# #     for b in listbox.curselection():
+# #         bulb = bulbList[b]
+# #         bulb.start_flow(flow)
+# #
+# #
+# def mode_sunrise():
+#     flow = flows.sunrise()
+#     for b in listbox.curselection():
+#         bulb = bulbList[b]
+#         bulb.start_flow(flow)
+
+
+dict_mode = {'sunrise': flows.sunrise(), 'sunset': flows.sunset(), 'disco': flows.disco(), 'temp': flows.temp(),
+             'strobe': flows.strobe(), 'pulse': flows.pulse(111, 222, 157), 'strobe_color': flows.strobe_color(),
+             'alarm': flows.alarm(), 'police': flows.police(), 'police2': flows.police2(), 'lsd': flows.lsd(),
+             'christmas': flows.christmas(), 'rgb': flows.rgb(), "random_loop": flows.random_loop(),
+             'slowdown': flows.slowdown(), 'home': flows.home(), 'night_mode': flows.night_mode(),
+             'date_night': flows.date_night(), 'movie': flows.movie(), 'romance': flows.romance(),
+             'happy_birthday': flows.happy_birthday(), 'candle_flicker': flows.candle_flicker()}
+
+
+def mode(mode):
+    fcn = dict_mode.get(mode)
+    for b in listbox.curselection():
+        bulb = bulbList[b]
+        bulb.start_flow(fcn)
+
+def mode1():
+    mode=chooser.get()
+    fcn = dict_mode.get(mode)
+    for b in listbox.curselection():
+        bulb = bulbList[b]
+        bulb.start_flow(fcn)
+
+def mode_stop():
+    for b in listbox.curselection():
+        bulb = bulbList[b]
+        bulb.stop_flow()
 
 win = Tk()
 win.title("Yeelight switch")
@@ -80,49 +120,48 @@ font_consolas_20 = font.Font(family='Consolas', size=20)
 frame = Frame(bg=gray)
 frame.pack(pady=10)
 
+modeFrame = Frame(bg=gray)
+modeFrame.pack(side=BOTTOM, pady=5)
+
 brightnessFrame = Frame(bg=gray)
 brightnessFrame.pack(side=BOTTOM, pady=10)
 
 colorTempFrame = Frame(bg=gray)
 colorTempFrame.pack(side=BOTTOM)
 
-img_TurnOn = PhotoImage(file="1F4A1_2.png")
-img_TurnOff = PhotoImage(file="1F4A1.png")
-img_Color = PhotoImage(file="1F308.png")
-img_BrightnessMax = PhotoImage(file="1F506.png")
-img_BrightnessMin = PhotoImage(file="1F505.png")
-img_ColorTemp = PhotoImage(file="1F321.png")
-img_Refresh = PhotoImage(file="1F504.png")
+img_TurnOn = PhotoImage(file="icons/1F4A1_2.png")
+img_TurnOff = PhotoImage(file="icons/1F4A1.png")
+img_Color = PhotoImage(file="icons/1F308.png")
+img_BrightnessMax = PhotoImage(file="icons/1F506.png")
+img_BrightnessMin = PhotoImage(file="icons/1F505.png")
+img_ColorTemp = PhotoImage(file="icons/1F321.png")
+img_Refresh = PhotoImage(file="icons/1F504.png")
+img_Start = PhotoImage(file="icons/25B61.png")
+img_Stop = PhotoImage(file="icons/23F9.png")
 
 bttn_TurnOn = Button(frame, text="Turn On", command=fcn_turn_on, image=img_TurnOn, compound=BOTTOM, bg=yellow, fg=gray)
-
 bttn_TurnOn.pack(side=LEFT)
-
-# FIXME test this function
-# bttn_changename = Button(frame, text="change name", command=change_name, image=img_TurnOn, compound=BOTTOM, bg=yellow,
-#                          fg=gray, font=f)
-#
-# bttn_changename.pack(side=LEFT)
-
 
 bttn_TurnOff = Button(frame, text="Turn Off", command=fcn_turn_off, image=img_TurnOff, compound=BOTTOM, bg=yellow,
                       fg=gray)
-
 bttn_TurnOff.pack(side=LEFT)
 
-bttn_Color = Button(frame, text="Choose Color", command=set_color, image=img_Color, compound=BOTTOM, bg=yellow, fg=gray)
+# TODO nowa ikonka
+bttn_changename = Button(frame, text="Change name", command=change_name, image=img_TurnOn, compound=BOTTOM, bg=yellow,
+                         fg=gray)
+bttn_changename.pack(side=LEFT)
 
+bttn_Color = Button(frame, text="Choose color", command=set_color, image=img_Color, compound=BOTTOM, bg=yellow, fg=gray)
 bttn_Color.pack(side=LEFT)
 
 bttn_Refresh = Button(frame, text="Refresh", command=refresh, image=img_Refresh, compound=BOTTOM, bg=yellow, fg=gray)
-
 bttn_Refresh.pack(side=LEFT)
 
-bttn_ColorTemp = Button(colorTempFrame, text="Applay Color\nTemperature", command=set_color_temp, image=img_ColorTemp,
+bttn_ColorTemp = Button(colorTempFrame, text="Applay color\ntemperature", command=set_color_temp, image=img_ColorTemp,
                         compound=BOTTOM, width=100, bg=yellow, fg=gray)
 bttn_ColorTemp.pack(side=LEFT)
 
-bttn_Brightess = Button(brightnessFrame, text="Set Brightness", command=set_brightness, image=img_BrightnessMin,
+bttn_Brightess = Button(brightnessFrame, text="Set brightness \n", command=set_brightness, image=img_BrightnessMin,
                         compound=BOTTOM, width=100, bg=yellow, fg=gray)
 bttn_Brightess.pack(side=LEFT)
 
@@ -131,12 +170,28 @@ listbox.pack(side=LEFT)
 listbox.config(height=listbox.size())
 
 scale_ColorTemp = Scale(colorTempFrame, from_=2700, to=6500, resolution=100, orient=HORIZONTAL,
-                        label="Color Temperature", length=500, font=font_consolas_13, bg=yellow, fg=gray)
+                        label="Color temperature", length=500, font=font_consolas_13, bg=yellow, fg=gray)
 scale_ColorTemp.pack(side=LEFT)
 
 scale_Brightness = Scale(brightnessFrame, from_=1, to=100, orient=HORIZONTAL, label="Brightness", length=500, bg=yellow,
                          fg=gray, font=font_consolas_13)
 scale_Brightness.pack(side=LEFT)
+
+# Yeelight mode
+
+label=Label(modeFrame, text='effects', font=font_consolas_20, bg=gray, fg=yellow)
+label.pack(side=TOP, pady=5)
+
+chooser = ttk.Combobox(modeFrame, font=font_consolas_13, width=10)
+chooser.pack(side=LEFT)
+chooser['values'] = list(dict_mode.keys())
+
+
+bttn_start = Button(modeFrame, text="start", command=mode1, image=img_Start, compound=RIGHT, bg=yellow1, fg=gray)
+bttn_start.pack(side=LEFT)
+
+bttn_stop = Button(modeFrame, text="stop", command=mode_stop(), image=img_Stop, compound=RIGHT, bg=yellow1, fg=gray)
+bttn_stop.pack(side=LEFT)
 
 refresh()
 
