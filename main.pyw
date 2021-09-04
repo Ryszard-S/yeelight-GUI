@@ -138,6 +138,7 @@ img_ColorTemp = PhotoImage(file="icons/1F321.png")
 img_Refresh = PhotoImage(file="icons/1F504.png")
 img_Start = PhotoImage(file="icons/25B61.png")
 img_Stop = PhotoImage(file="icons/23F9.png")
+img_ChangeName=PhotoImage(file='icons/E25D.png')
 
 bttn_TurnOn = Button(frame, text="Turn On", command=fcn_turn_on, image=img_TurnOn, compound=BOTTOM, bg=yellow, fg=gray)
 bttn_TurnOn.pack(side=LEFT)
@@ -146,8 +147,8 @@ bttn_TurnOff = Button(frame, text="Turn Off", command=fcn_turn_off, image=img_Tu
                       fg=gray)
 bttn_TurnOff.pack(side=LEFT)
 
-# TODO nowa ikonka
-bttn_changename = Button(frame, text="Change name", command=change_name, image=img_TurnOn, compound=BOTTOM, bg=yellow,
+
+bttn_changename = Button(frame, text="Change name", command=change_name, image=img_ChangeName, compound=BOTTOM, bg=yellow,
                          fg=gray)
 bttn_changename.pack(side=LEFT)
 
