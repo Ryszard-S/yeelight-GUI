@@ -57,7 +57,10 @@ def set_brightness():
 
 
 def change_name():
-    enter_name.enterName(bulbList=bulbList,parent=win)
+    x=enter_name.enterName(bulbList=bulbList, parent=win)
+    x.wait_window()
+    refresh()
+
 
 
 def refresh():
@@ -70,20 +73,6 @@ def refresh():
         listbox.insert(END, bulb)
 
 
-# # def mode_sunset():
-# #     flow = flows.sunset()
-# #     for b in listbox.curselection():
-# #         bulb = bulbList[b]
-# #         bulb.start_flow(flow)
-# #
-# #
-# def mode_sunrise():
-#     flow = flows.sunrise()
-#     for b in listbox.curselection():
-#         bulb = bulbList[b]
-#         bulb.start_flow(flow)
-
-
 dict_mode = {'sunrise': flows.sunrise(), 'sunset': flows.sunset(), 'disco': flows.disco(), 'temp': flows.temp(),
              'strobe': flows.strobe(), 'pulse': flows.pulse(111, 222, 157), 'strobe_color': flows.strobe_color(),
              'alarm': flows.alarm(), 'police': flows.police(), 'police2': flows.police2(), 'lsd': flows.lsd(),
@@ -93,14 +82,7 @@ dict_mode = {'sunrise': flows.sunrise(), 'sunset': flows.sunset(), 'disco': flow
              'happy_birthday': flows.happy_birthday(), 'candle_flicker': flows.candle_flicker()}
 
 
-def mode(mode):
-    fcn = dict_mode.get(mode)
-    for b in listbox.curselection():
-        bulb = bulbList[b]
-        bulb.start_flow(fcn)
-
-
-def mode1():
+def mode():
     mode = chooser.get()
     fcn = dict_mode.get(mode)
     for b in listbox.curselection():
@@ -190,7 +172,7 @@ chooser = ttk.Combobox(modeFrame, font=font_consolas_13, width=10)
 chooser.pack(side=LEFT)
 chooser['values'] = list(dict_mode.keys())
 
-bttn_start = Button(modeFrame, text="start", command=mode1, image=img_Start, compound=RIGHT, bg=yellow1, fg=gray)
+bttn_start = Button(modeFrame, text="start", command=mode, image=img_Start, compound=RIGHT, bg=yellow1, fg=gray)
 bttn_start.pack(side=LEFT)
 
 bttn_stop = Button(modeFrame, text="stop", command=mode_stop, image=img_Stop, compound=RIGHT, bg=yellow1, fg=gray)

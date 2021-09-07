@@ -2,34 +2,35 @@ import tkinter.ttk as ttk
 from tkinter import *
 from tkinter import font
 
+import refresh
 from refresh import *
 
 gray = '#383838'
 yellow = '#D4AC3D'
 
-bulbList = []
-
 
 class enterName(Toplevel):
     def __init__(self, bulbList, parent):
-        # super().__init__(parent)
+        super().__init__(parent, bg=gray)
+        self.bulbList = bulbList
+        # self.p=parent
         self.bulbName = bulb_names(bulbList)
 
         font_consolas = font.Font(family='Consolas', size=11)
 
         # TODO make me pretty
-        self.new_window = Toplevel(parent, bg=gray)
+        # self.new_window = Toplevel(parent, bg=gray)
 
-        self.new_window.title("Change bulb's name")
-        self.new_window.geometry("300x200")
+        self.title("Change bulb's name")
+        self.geometry("300x200")
 
         self.img_Approve = PhotoImage(file="icons/2714_20.png")
         self.img_Cancel = PhotoImage(file="icons/274C_20.png")
 
-        self.frame = Frame(self.new_window, bg=gray)
+        self.frame = Frame(self, bg=gray)
         self.frame.pack(pady=10)
 
-        self.frame1 = Frame(self.new_window, bg=gray)
+        self.frame1 = Frame(self, bg=gray)
         self.frame1.pack(side=BOTTOM, pady=10)
 
         self.lbl1 = Label(self.frame, text='Enter new name: ', bg=gray, fg=yellow, font=font_consolas)
@@ -59,58 +60,26 @@ class enterName(Toplevel):
     #     bulbName = bulb_names(bulbList)
 
     def _ok(self):
-        bulb_num = self.chooser.current()
-        new_name = self.entry.get()
-        bulbList[bulb_num].set_name(new_name)
+        self.bulb_num = self.chooser.current()
+        self.new_name = self.entry.get()
+        self.bulbList[self.bulb_num].set_name(self.new_name)
 
         # zmiana nazwy na liście bulbName:
 
-        self.bulbName.pop(bulb_num)
-        self.bulbName.insert(bulb_num, new_name)
+        self.bulbName.pop(self.bulb_num)
+        self.bulbName.insert(self.bulb_num, self.new_name)
 
         # ustawianie na combobox nowych nazw
         self.chooser['values'] = self.bulbName
+        print('OK_func')
 
 
     def _cancel(self):
-        self.new_window.destroy()
-
-    # def new_window(self):
-    #     # TODO make me pretty
-    #     new_window = Toplevel(bg=gray)
-    #
-    #     new_window.title("Change bulb's name")
-    #     new_window.geometry("300x200")
-    #
-    #     img_Approve = PhotoImage(file="icons/2714.png")
-    #     img_Cancel = PhotoImage(file="icons/274C.png")
-    #
-    #
-    #     frame = Frame(new_window, bg=gray)
-    #     frame.pack(pady=10)
-    #
-    #     frame1 = Frame(new_window, bg=yellow)
-    #     frame1.pack(side=BOTTOM, pady=10)
-    #
-    #     lbl1 = Label(frame, text='Enter new name: ')
-    #     lbl1.pack()
-    #
-    #     entry = Entry(frame)
-    #     entry.pack()
-    #
-    #     lbl2 = Label(frame , text='Choose bulb: ')
-    #     lbl2.pack()
-    #
-    #     chooser = tkk.Combobox(frame)
-    #     chooser.pack()
-    #     chooser['values'] = self.bulbName
-    #
-    #
-    #     bttn_ok = Button(frame1,  text="change", command=self._ok, image=img_Approve, compound=RIGHT, bg=yellow, fg=gray)
-    #     bttn_ok.pack(side=LEFT)
-    #
-    #     bttn_cancel = Button(frame1, text="cancel", command=self._cancel, image=img_Cancel, compound=RIGHT, bg=yellow, fg=gray)
-    #     bttn_cancel.pack(side=LEFT)
+        print('cancel')
+        refresh.bulb_list()
+        self.destroy()
+        # self.new_window.protocol('WM_DELETE_WINDOW', func=self.callback)
+        print('cancel')
 
 
 if __name__ == '__main__':

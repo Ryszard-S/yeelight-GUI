@@ -21,7 +21,7 @@ pip3 install yeelight
 ```
 
 ## Run app
-Copy files to user directory, create desktop shortcut from python "main.py" script.
+Copy files to user directory, create desktop shortcut from python "main.pyw" script.
 You can change the icon of the shortcut by right-clicking on it -> properties -> change icon. Select the "icon.ico" file from the directory and click ok.
 
 ## Credits
