@@ -57,7 +57,7 @@ def set_brightness():
 
 
 def change_name():
-    enter_name.enterName(bulbList=bulbList)
+    enter_name.enterName(bulbList=bulbList,parent=win)
 
 
 def refresh():
@@ -99,17 +99,20 @@ def mode(mode):
         bulb = bulbList[b]
         bulb.start_flow(fcn)
 
+
 def mode1():
-    mode=chooser.get()
+    mode = chooser.get()
     fcn = dict_mode.get(mode)
     for b in listbox.curselection():
         bulb = bulbList[b]
         bulb.start_flow(fcn)
 
+
 def mode_stop():
     for b in listbox.curselection():
         bulb = bulbList[b]
         bulb.stop_flow()
+
 
 win = Tk()
 win.title("Yeelight switch")
@@ -138,7 +141,7 @@ img_ColorTemp = PhotoImage(file="icons/1F321.png")
 img_Refresh = PhotoImage(file="icons/1F504.png")
 img_Start = PhotoImage(file="icons/25B61.png")
 img_Stop = PhotoImage(file="icons/23F9.png")
-img_ChangeName=PhotoImage(file='icons/E25D.png')
+img_ChangeName = PhotoImage(file='icons/E25D.png')
 
 bttn_TurnOn = Button(frame, text="Turn On", command=fcn_turn_on, image=img_TurnOn, compound=BOTTOM, bg=yellow, fg=gray)
 bttn_TurnOn.pack(side=LEFT)
@@ -147,8 +150,8 @@ bttn_TurnOff = Button(frame, text="Turn Off", command=fcn_turn_off, image=img_Tu
                       fg=gray)
 bttn_TurnOff.pack(side=LEFT)
 
-
-bttn_changename = Button(frame, text="Change name", command=change_name, image=img_ChangeName, compound=BOTTOM, bg=yellow,
+bttn_changename = Button(frame, text="Change name", command=change_name, image=img_ChangeName, compound=BOTTOM,
+                         bg=yellow,
                          fg=gray)
 bttn_changename.pack(side=LEFT)
 
@@ -158,7 +161,7 @@ bttn_Color.pack(side=LEFT)
 bttn_Refresh = Button(frame, text="Refresh", command=refresh, image=img_Refresh, compound=BOTTOM, bg=yellow, fg=gray)
 bttn_Refresh.pack(side=LEFT)
 
-bttn_ColorTemp = Button(colorTempFrame, text="Applay color\ntemperature", command=set_color_temp, image=img_ColorTemp,
+bttn_ColorTemp = Button(colorTempFrame, text="Apply color\ntemperature", command=set_color_temp, image=img_ColorTemp,
                         compound=BOTTOM, width=100, bg=yellow, fg=gray)
 bttn_ColorTemp.pack(side=LEFT)
 
@@ -171,27 +174,26 @@ listbox.pack(side=LEFT)
 listbox.config(height=listbox.size())
 
 scale_ColorTemp = Scale(colorTempFrame, from_=2700, to=6500, resolution=100, orient=HORIZONTAL,
-                        label="Color temperature", length=500, font=font_consolas_13, bg=yellow, fg=gray)
-scale_ColorTemp.pack(side=LEFT)
+                        label="Color temperature", length=500, font=font_consolas_13, bg=yellow, fg=gray, width=20)
+scale_ColorTemp.pack(side=LEFT, fill=Y, pady=1)
 
-scale_Brightness = Scale(brightnessFrame, from_=1, to=100, orient=HORIZONTAL, label="Brightness", length=500, bg=yellow,
-                         fg=gray, font=font_consolas_13)
-scale_Brightness.pack(side=LEFT)
+scale_Brightness = Scale(brightnessFrame, from_=1, to=100, orient=HORIZONTAL, label='Brightness', length=500, bg=yellow,
+                         fg=gray, font=font_consolas_13, width=20)
+scale_Brightness.pack(side=LEFT, fill=Y, pady=1)
 
 # Yeelight mode
 
-label=Label(modeFrame, text='effects', font=font_consolas_20, bg=gray, fg=yellow)
+label = Label(modeFrame, text='effects', font=font_consolas_20, bg=gray, fg=yellow)
 label.pack(side=TOP, pady=5)
 
 chooser = ttk.Combobox(modeFrame, font=font_consolas_13, width=10)
 chooser.pack(side=LEFT)
 chooser['values'] = list(dict_mode.keys())
 
-
 bttn_start = Button(modeFrame, text="start", command=mode1, image=img_Start, compound=RIGHT, bg=yellow1, fg=gray)
 bttn_start.pack(side=LEFT)
 
-bttn_stop = Button(modeFrame, text="stop", command=mode_stop(), image=img_Stop, compound=RIGHT, bg=yellow1, fg=gray)
+bttn_stop = Button(modeFrame, text="stop", command=mode_stop, image=img_Stop, compound=RIGHT, bg=yellow1, fg=gray)
 bttn_stop.pack(side=LEFT)
 
 refresh()
