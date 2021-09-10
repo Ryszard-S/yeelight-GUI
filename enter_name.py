@@ -13,13 +13,9 @@ class enterName(Toplevel):
     def __init__(self, bulbList, parent):
         super().__init__(parent, bg=gray)
         self.bulbList = bulbList
-        # self.p=parent
         self.bulbName = bulb_names(bulbList)
 
         font_consolas = font.Font(family='Consolas', size=11)
-
-        # TODO make me pretty
-        # self.new_window = Toplevel(parent, bg=gray)
 
         self.title("Change bulb's name")
         self.geometry("300x200")
@@ -54,10 +50,6 @@ class enterName(Toplevel):
                                   compound=RIGHT, bg=yellow, fg=gray)
         self.bttn_cancel.pack(side=LEFT)
 
-    # def refresh_names():
-    #     global bulbList
-    #     bulbList = bulb_list()
-    #     bulbName = bulb_names(bulbList)
 
     def _ok(self):
         self.bulb_num = self.chooser.current()
@@ -71,20 +63,14 @@ class enterName(Toplevel):
 
         # ustawianie na combobox nowych nazw
         self.chooser['values'] = self.bulbName
-        print('OK_func')
 
 
     def _cancel(self):
-        print('cancel')
         refresh.bulb_list()
         self.destroy()
-        # self.new_window.protocol('WM_DELETE_WINDOW', func=self.callback)
-        print('cancel')
 
 
 if __name__ == '__main__':
-    from tkinter import *
-
     win = Tk()
     enterName([], win)
     win.mainloop()

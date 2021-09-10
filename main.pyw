@@ -95,6 +95,13 @@ def mode_stop():
         bulb = bulbList[b]
         bulb.stop_flow()
 
+def onselect(event):
+    b = event.widget.curselection()[0]
+    br = bulbList[b].get_properties().get('bright')
+    ct = bulbList[b].get_properties().get('ct')
+    scale_Brightness.set(br)
+    scale_ColorTemp.set(ct)
+
 
 win = Tk()
 win.title("Yeelight switch")
@@ -151,9 +158,13 @@ bttn_Brightess = Button(brightnessFrame, text="Set brightness \n", command=set_b
                         compound=BOTTOM, width=100, bg=yellow, fg=gray)
 bttn_Brightess.pack(side=LEFT)
 
-listbox = Listbox(frame, bg=gray, fg=yellow, font=font_consolas_20, selectmode=EXTENDED)
+listbox = Listbox(frame, bg=gray, fg=yellow, font=font_consolas_20, selectmode=EXTENDED, height=3)
 listbox.pack(side=LEFT)
-listbox.config(height=listbox.size())
+
+scrollbar = Scrollbar(frame, orient='vertical', command=listbox.yview)
+scrollbar.pack(side=LEFT,fill=BOTH)
+listbox.config(yscrollcommand=scrollbar.set)
+listbox.bind('<<ListboxSelect>>', onselect)
 
 scale_ColorTemp = Scale(colorTempFrame, from_=2700, to=6500, resolution=100, orient=HORIZONTAL,
                         label="Color temperature", length=500, font=font_consolas_13, bg=yellow, fg=gray, width=20)
