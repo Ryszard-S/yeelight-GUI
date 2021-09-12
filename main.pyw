@@ -12,7 +12,6 @@ yellow = '#D4AC3D'
 yellow1 = '#A8831B'
 
 
-# TODO ustawianie wartości bightness i ct po wybraniu żarówki ??
 
 
 # włącz wszystkie aktualnie zaznaczone światła
@@ -58,10 +57,9 @@ def set_brightness():
 
 
 def change_name():
-    x=enter_name.enterName(bulbList=bulbList, parent=win)
+    x = enter_name.enterName(bulbList=bulbList, parent=win)
     x.wait_window()
     refresh()
-
 
 
 def refresh():
@@ -96,12 +94,14 @@ def mode_stop():
         bulb = bulbList[b]
         bulb.stop_flow()
 
+
 def onselect(event):
     b = event.widget.curselection()[0]
     br = bulbList[b].get_properties().get('bright')
     ct = bulbList[b].get_properties().get('ct')
     scale_Brightness.set(br)
     scale_ColorTemp.set(ct)
+
 
 def info_mode():
     window_info.WindowInfo(bulbList=bulbList, parent=win)
@@ -194,7 +194,8 @@ bttn_start.pack(side=LEFT)
 bttn_stop = Button(modeFrame, text="stop", command=mode_stop, image=img_Stop, compound=RIGHT, bg=yellow1, fg=gray)
 bttn_stop.pack(side=LEFT)
 
-bttn_adv_mode=Button(modeFrame, text="Info", command=info_mode, image=img_InfoMode, compound=RIGHT, bg=yellow1, fg=gray)
+bttn_adv_mode = Button(modeFrame, text="Info", command=info_mode, image=img_InfoMode, compound=RIGHT, bg=yellow1,
+                       fg=gray)
 bttn_adv_mode.pack(side=RIGHT)
 
 refresh()
