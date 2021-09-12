@@ -4,6 +4,7 @@ from tkinter import colorchooser, font, ttk
 from yeelight import flows
 
 import enter_name
+import window_info
 from refresh import *
 
 gray = '#383838'
@@ -102,6 +103,9 @@ def onselect(event):
     scale_Brightness.set(br)
     scale_ColorTemp.set(ct)
 
+def info_mode():
+    window_info.WindowInfo(bulbList=bulbList, parent=win)
+
 
 win = Tk()
 win.title("Yeelight switch")
@@ -131,6 +135,7 @@ img_Refresh = PhotoImage(file="icons/1F504.png")
 img_Start = PhotoImage(file="icons/25B61.png")
 img_Stop = PhotoImage(file="icons/23F9.png")
 img_ChangeName = PhotoImage(file='icons/E25D.png')
+img_InfoMode = PhotoImage(file='icons/2139_20.png')
 
 bttn_TurnOn = Button(frame, text="Turn On", command=fcn_turn_on, image=img_TurnOn, compound=BOTTOM, bg=yellow, fg=gray)
 bttn_TurnOn.pack(side=LEFT)
@@ -162,7 +167,7 @@ listbox = Listbox(frame, bg=gray, fg=yellow, font=font_consolas_20, selectmode=E
 listbox.pack(side=LEFT)
 
 scrollbar = Scrollbar(frame, orient='vertical', command=listbox.yview)
-scrollbar.pack(side=LEFT,fill=BOTH)
+scrollbar.pack(side=LEFT, fill=BOTH)
 listbox.config(yscrollcommand=scrollbar.set)
 listbox.bind('<<ListboxSelect>>', onselect)
 
@@ -188,6 +193,9 @@ bttn_start.pack(side=LEFT)
 
 bttn_stop = Button(modeFrame, text="stop", command=mode_stop, image=img_Stop, compound=RIGHT, bg=yellow1, fg=gray)
 bttn_stop.pack(side=LEFT)
+
+bttn_adv_mode=Button(modeFrame, text="Info", command=info_mode, image=img_InfoMode, compound=RIGHT, bg=yellow1, fg=gray)
+bttn_adv_mode.pack(side=RIGHT)
 
 refresh()
 
