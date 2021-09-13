@@ -28,7 +28,7 @@ def bulb_list():
 
 
 def bulb_names(bulbList):
-    if bulbList == None:
+    if bulbList is None:
         bulbList = bulb_list()
     bn = []
 

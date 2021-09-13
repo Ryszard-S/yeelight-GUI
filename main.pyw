@@ -12,33 +12,35 @@ yellow = '#D4AC3D'
 yellow1 = '#A8831B'
 
 
-
-
-# włącz wszystkie aktualnie zaznaczone światła
+# turn all current selected lights
 def fcn_turn_on():
     for b in listbox.curselection():
         bulb = bulbList[b]
         bulb.turn_on()
 
-
+# turn off all current selected lights
 def fcn_turn_off():
     for b in listbox.curselection():
         bulb = bulbList[b]
         bulb.turn_off()
 
-
+# change lights' color temperature
 def set_color_temp():
     for b in listbox.curselection():
         bulb = bulbList[b]
         bulb.set_color_temp(scale_ColorTemp.get())
 
-
+# change color
 def set_color():
     color = colorchooser.askcolor()
     col1 = color[0]
     r = col1[0]
     g = col1[1]
     b = col1[2]
+
+    # protection against entering number 0
+    if r < 1 and g < 1 and b < 1:
+        r, g, b, = 1, 1, 1
     for bulbb in listbox.curselection():
         bulb = bulbList[bulbb]
         bulb.set_rgb(r, g, b)
@@ -66,7 +68,7 @@ def refresh():
     global bulbList
     bulbList = bulb_list()
 
-    # Wstawianie nazw żarówek do listy wybieralnej
+    # Insert name of bulbs to listbox
     listbox.delete(0, END)
     for bulb in bulb_names(bulbList):
         listbox.insert(END, bulb)
@@ -94,7 +96,7 @@ def mode_stop():
         bulb = bulbList[b]
         bulb.stop_flow()
 
-
+# change values on scale bright an CT after select bulb on list
 def onselect(event):
     b = event.widget.curselection()[0]
     br = bulbList[b].get_properties().get('bright')

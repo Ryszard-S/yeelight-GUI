@@ -1,9 +1,7 @@
 import tkinter.ttk as ttk
 from tkinter import *
 from tkinter import font
-
-import refresh
-from refresh import *
+from refresh import bulb_names
 
 gray = '#383838'
 yellow = '#D4AC3D'
@@ -56,17 +54,16 @@ class enterName(Toplevel):
         self.new_name = self.entry.get()
         self.bulbList[self.bulb_num].set_name(self.new_name)
 
-        # zmiana nazwy na liście bulbName:
+        # rename in bulbName list :
 
         self.bulbName.pop(self.bulb_num)
         self.bulbName.insert(self.bulb_num, self.new_name)
 
-        # ustawianie na combobox nowych nazw
+        # set in combobox new name
         self.chooser['values'] = self.bulbName
 
 
     def _cancel(self):
-        refresh.bulb_list()
         self.destroy()
 
 
